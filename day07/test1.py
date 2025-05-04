@@ -1,9 +1,6 @@
 from dataclasses import dataclass
 from itertools import product
 
-print('hello world')
-
-
 @dataclass
 class Data:
     valeur: int
