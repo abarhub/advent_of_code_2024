@@ -1,16 +1,25 @@
 from dataclasses import dataclass
+from itertools import product
 
 print('hello world')
 
 @dataclass
 class Data:
     valeur: int
-    nombres: [int]
+    nombres: list[int]
     # def __init__(self, valeur, nombres):
     #     self.valeur = valeur
     #     self.nombres = nombres
 
-def lecture(fichier)-> [Data]:
+
+@dataclass
+class Resultat:
+    valeur: int
+    nombres: list[int]
+    operateurs: list[str]
+
+
+def lecture(fichier)-> list[Data]:
     res=[]
     with open(fichier, 'r') as file:
         # Read each line in the file
@@ -29,5 +38,37 @@ def lecture(fichier)-> [Data]:
 
     return res
 
+def cherche_operateurs(data:Data)->Resultat|None:
+
+    liste_operateurs=['+','*']
+
+    longueur = len(data.nombres)-1
+    combinaisons = [''.join(p) for p in product(liste_operateurs, repeat=longueur)]
+
+    for combinaison in combinaisons:
+        valeur = 0
+        for i in range(len(data.nombres)):
+            if i==0:
+                valeur=data.nombres[i]
+            else:
+                op2=combinaison[i-1]
+                v=data.nombres[i]
+                if op2=='+':
+                    valeur=valeur+v
+                elif op2=='*':
+                    valeur=valeur*v
+        if valeur==data.valeur:
+            return Resultat(valeur,data.nombres,combinaison.split())
+
+    return None
+
+
 liste1=lecture('test1.txt')
 print(liste1)
+
+for x in liste1:
+    op=cherche_operateurs(x)
+    if op is not None:
+        print('trouve:',x,op)
+    else:
+        print('non trouve:',x)
