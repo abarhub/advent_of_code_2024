@@ -105,20 +105,26 @@ def cherche_operateurs_choix(data: Data, no: int) -> Resultat | None:
 
 def recherche(no:int):
 
-    liste1 = lecture('test1.txt')
+    #liste1 = lecture('test1.txt')
+    liste1 = lecture('input.txt')
     print(liste1)
 
+    total=0
+    nb=0
     for x in liste1:
         op = cherche_operateurs_choix(x, no)
         if op is not None:
             print('trouve:', x, op)
+            nb+=1;
+            total+=x.valeur
         else:
             print('non trouve:', x)
+    print('nb:', nb)
+    print('total:', total)
 
-if False:
-    recherche(10)
+if True:
     no=0
-    no=1
+    #no=1
 
     recherche(no)
 else:
