@@ -57,13 +57,64 @@ def cherche_operateurs(data: Data) -> Resultat | None:
 
     return None
 
+def parcourt(data: Data, liste_operateurs: list[str],no:int,val:int, operateurs_selectionnee:list[str]) -> Resultat | None:
 
-liste1 = lecture('test1.txt')
-print(liste1)
-
-for x in liste1:
-    op = cherche_operateurs(x)
-    if op is not None:
-        print('trouve:', x, op)
+    if no<0:
+        raise IndexError("no="+str(no))
+    elif no>=len(data.nombres):
+        raise IndexError("no="+str(no)+",len(data.nombres)="+str(len(data.nombres)))
+    res=-1
+    if no == 0:
+        v=data.nombres[no]
+        return parcourt(data, liste_operateurs, no+1, v,[])
     else:
-        print('non trouve:', x)
+        for operateur in liste_operateurs:
+            if operateur == '+':
+                v2=val+data.nombres[no]
+            elif operateur == '*':
+                v2=val*data.nombres[no]
+            else:
+                raise Exception("Erreur")
+            if no>=len(data.nombres)-1:
+                if v2 == data.valeur:
+                    liste2=operateurs_selectionnee.copy()
+                    liste2.append(operateur)
+                    return Resultat(data.valeur, data.nombres, liste2)
+            else:
+                liste2=operateurs_selectionnee.copy()
+                liste2.append(operateur)
+                res2=parcourt(data, liste_operateurs, no+1, v2, liste2)
+                if res2 is not None:
+                    return res2
+    return None
+
+def cherche_operateurs2(data: Data) -> Resultat | None:
+    liste_operateurs = ['+', '*']
+
+    return parcourt(data,liste_operateurs,0,0,[])
+
+def cherche_operateurs_choix(data: Data, no: int) -> Resultat | None:
+    if no == 0:
+        return cherche_operateurs(data)
+    elif no == 1:
+        return cherche_operateurs2(data)
+    else:
+        raise Exception("Erreur")
+
+def recherche(no:int):
+
+    liste1 = lecture('test1.txt')
+    print(liste1)
+
+    for x in liste1:
+        op = cherche_operateurs_choix(x, no)
+        if op is not None:
+            print('trouve:', x, op)
+        else:
+            print('non trouve:', x)
+
+no=0
+no=1
+
+recherche(no)
+
