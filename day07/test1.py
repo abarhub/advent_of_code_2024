@@ -8,9 +8,6 @@ print('hello world')
 class Data:
     valeur: int
     nombres: list[int]
-    # def __init__(self, valeur, nombres):
-    #     self.valeur = valeur
-    #     self.nombres = nombres
 
 
 @dataclass
