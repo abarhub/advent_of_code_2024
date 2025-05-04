@@ -115,7 +115,7 @@ def recherche(no:int):
         op = cherche_operateurs_choix(x, no)
         if op is not None:
             print('trouve:', x, op)
-            nb+=1;
+            nb+=1
             total+=x.valeur
         else:
             print('non trouve:', x)
