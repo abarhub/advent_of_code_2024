@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 from itertools import product
+from timeit import timeit
+
 
 @dataclass
 class Data:
@@ -113,8 +115,14 @@ def recherche(no:int):
         else:
             print('non trouve:', x)
 
-no=0
-no=1
+if False:
+    recherche(10)
+    no=0
+    no=1
 
-recherche(no)
+    recherche(no)
+else:
+    no=0
+    no = 1
+    print(timeit(lambda :recherche(no),number=500))
 
