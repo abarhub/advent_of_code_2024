@@ -45,7 +45,7 @@ class Algo1:
         self.data = data
         self.nb_op = nb_op
 
-    def cherche_operateurs(self, data: Data, nb_op: NbOperations) -> Resultat | None:
+    def cherche_operateurs(self) -> Resultat | None:
         liste_operateurs = ['+', '*']
 
         longueur = len(self.data.nombres) - 1
@@ -77,8 +77,8 @@ class Algo2:
         self.data = data
         self.nb_op = nb_op
 
-    def parcourt(self, data: Data, liste_operateurs: list[str],no:int,val:int,
-                 operateurs_selectionnee:list[str], nb_op: NbOperations) -> Resultat | None:
+    def parcourt(self, liste_operateurs: list[str],no:int,val:int,
+                 operateurs_selectionnee:list[str]) -> Resultat | None:
 
         if no<0:
             raise IndexError("no="+str(no))
@@ -87,7 +87,7 @@ class Algo2:
         res=-1
         if no == 0:
             v=self.data.nombres[no]
-            return self.parcourt(self.data, liste_operateurs, no+1, v,[], self.nb_op)
+            return self.parcourt(liste_operateurs, no+1, v,[])
         else:
             for operateur in liste_operateurs:
                 if operateur == '+':
@@ -112,17 +112,16 @@ class Algo2:
                         return res2
         return None
 
-    def parcourt2(self, data: Data, liste_operateurs: list[str],no:int,val:int,
-                  operateurs_selectionnee:list[str], nb_op: NbOperations) -> Resultat | None:
+    def parcourt2(self, liste_operateurs: list[str],no:int,val:int,
+                  operateurs_selectionnee:list[str]) -> Resultat | None:
 
         if no<0:
             raise IndexError("no="+str(no))
         elif no>=len(self.data.nombres):
             raise IndexError("no="+str(no)+",len(data.nombres)="+str(len(self.data.nombres)))
-        res=-1
         if no == 0:
             v=self.data.nombres[no]
-            return self.parcourt2(self.data, liste_operateurs, no+1, v,[],self.nb_op)
+            return self.parcourt2(liste_operateurs, no+1, v,[])
         else:
             for operateur in liste_operateurs:
                 if operateur == '+':
@@ -145,15 +144,15 @@ class Algo2:
                 else:
                     liste2=operateurs_selectionnee.copy()
                     liste2.append(operateur)
-                    res2=self.parcourt2(self.data, liste_operateurs, no+1, v2, liste2, nb_op)
+                    res2=self.parcourt2(liste_operateurs, no+1, v2, liste2)
                     if res2 is not None:
                         return res2
         return None
 
-    def cherche_operateurs2(self, data: Data, nb_op: NbOperations) -> Resultat | None:
+    def cherche_operateurs2(self) -> Resultat | None:
         liste_operateurs = ['+', '*']
 
-        return self.parcourt2(self.data, liste_operateurs, 0, 0, [], self.nb_op)
+        return self.parcourt2(liste_operateurs, 0, 0, [])
 
 
 class Algo3:
@@ -162,8 +161,8 @@ class Algo3:
         self.data = data
         self.nb_op = nb_op
 
-    def parcourt3(self, data: Data, liste_operateurs: list[str],no:int,val:int,
-                  operateurs_selectionnee:list[str], nb_op: NbOperations, reste:int) -> Resultat | None:
+    def parcourt3(self, liste_operateurs: list[str],no:int,val:int,
+                  operateurs_selectionnee:list[str], reste:int) -> Resultat | None:
 
         if no<0:
             raise IndexError("no="+str(no))
@@ -178,7 +177,7 @@ class Algo3:
             if total>self.data.valeur:
                 return None
             reste=total-v
-            return self.parcourt3(self.data, liste_operateurs, no+1, v,[],self.nb_op, reste)
+            return self.parcourt3(liste_operateurs, no+1, v,[], reste)
         else:
             for operateur in liste_operateurs:
                 if operateur == '+':
@@ -204,26 +203,23 @@ class Algo3:
                 else:
                     liste2=operateurs_selectionnee.copy()
                     liste2.append(operateur)
-                    res2=self.parcourt3(self.data, liste_operateurs, no+1, v2, liste2, self.nb_op, reste2)
+                    res2=self.parcourt3(liste_operateurs, no+1, v2, liste2, reste2)
                     if res2 is not None:
                         return res2
         return None
 
-    def cherche_operateurs3(self, data: Data, nb_op: NbOperations) -> Resultat | None:
+    def cherche_operateurs3(self) -> Resultat | None:
         liste_operateurs = ['+', '*']
 
-        return self.parcourt3(data, liste_operateurs, 0, 0, [], nb_op,0)
+        return self.parcourt3(liste_operateurs, 0, 0, [], 0)
 
 def cherche_operateurs_choix(data: Data, no: int, nb_op: NbOperations) -> Resultat | None:
     if no == 0:
-        return Algo1(data, nb_op).cherche_operateurs(data, nb_op)
-        #return cherche_operateurs(data,nb_op)
+        return Algo1(data, nb_op).cherche_operateurs()
     elif no == 1:
-        return Algo2(data, nb_op).cherche_operateurs2(data,nb_op)
-        #return cherche_operateurs2(data,nb_op)
+        return Algo2(data, nb_op).cherche_operateurs2()
     elif no == 2:
-        return Algo3(data, nb_op).cherche_operateurs3(data,nb_op)
-        # return cherche_operateurs3(data, nb_op)
+        return Algo3(data, nb_op).cherche_operateurs3()
     else:
         raise Exception("Erreur")
 
@@ -250,8 +246,8 @@ def recherche(no:int):
 
 if True:
     no=0
-    no=1
-    no = 2
+    #no=1
+    #no = 2
 
     recherche(no)
 else:
