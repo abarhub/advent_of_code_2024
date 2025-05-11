@@ -1,5 +1,8 @@
 from day07.commun import Resultat, Data, NbOperations
 
+# Algo 2
+# calcul des possibilités recursivement
+# il y a arret si la somme dépassé la valeur cherché
 
 class Algo2:
 
@@ -14,7 +17,6 @@ class Algo2:
             raise IndexError("no="+str(no))
         elif no>=len(self.data.nombres):
             raise IndexError("no="+str(no)+",len(data.nombres)="+str(len(self.data.nombres)))
-        res=-1
         if no == 0:
             v=self.data.nombres[no]
             return self.parcourt(liste_operateurs, no+1, v,[])

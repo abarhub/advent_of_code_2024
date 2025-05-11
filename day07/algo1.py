@@ -2,6 +2,9 @@ from itertools import product
 
 from day07.commun import Resultat, NbOperations, Data
 
+# algo 1 :
+# calcul directe de toutes les possibilité avec une boucle
+#
 
 class Algo1:
     def __init__(self, data: Data, nb_op: NbOperations) -> None:
