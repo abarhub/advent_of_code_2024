@@ -18,35 +18,35 @@ def cherche_operateurs_choix(data: Data, no: int, nb_op: NbOperations) -> Result
     else:
         raise Exception("Erreur")
 
-def recherche(no:int):
 
-    #liste1 = lecture('test1.txt')
+def recherche(no: int):
+    # liste1 = lecture('test1.txt')
     liste1 = lecture('input.txt')
     print(liste1)
 
-    total=0
-    nb=0
-    nbOp=NbOperations(0,0,0)
+    total = 0
+    nb = 0
+    nbOp = NbOperations(0, 0, 0)
     for x in liste1:
         op = cherche_operateurs_choix(x, no, nbOp)
         if op is not None:
             print('trouve:', x, op)
-            nb+=1
-            total+=x.valeur
+            nb += 1
+            total += x.valeur
         else:
             print('non trouve:', x)
     print('nb:', nb)
     print('total:', total)
     print('nb op:', nbOp)
 
+
 if True:
-    no=0
-    no=1
-    #no = 2
+    no = 0
+    no = 1
+    # no = 2
 
     recherche(no)
 else:
-    no=0
+    no = 0
     no = 1
-    print(timeit(lambda :recherche(no),number=500))
-
+    print(timeit(lambda: recherche(no), number=500))

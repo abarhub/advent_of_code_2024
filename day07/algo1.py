@@ -2,6 +2,7 @@ from itertools import product
 
 from day07.commun import Resultat, NbOperations, Data
 
+
 # algo 1 :
 # calcul directe de toutes les possibilité avec une boucle
 #
@@ -27,13 +28,12 @@ class Algo1:
                     v = self.data.nombres[i]
                     if op2 == '+':
                         valeur = valeur + v
-                        self.nb_op.nb+=1
+                        self.nb_op.nb += 1
                     elif op2 == '*':
                         valeur = valeur * v
-                        self.nb_op.nb+=1
+                        self.nb_op.nb += 1
             if valeur == self.data.valeur:
-                self.nb_op.nbFeuilles+=1
+                self.nb_op.nbFeuilles += 1
                 return Resultat(valeur, self.data.nombres, combinaison.split())
 
         return None
-

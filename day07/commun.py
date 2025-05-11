@@ -13,12 +13,12 @@ class Resultat:
     nombres: list[int]
     operateurs: list[str]
 
+
 @dataclass
 class NbOperations:
     nb: int
     nbFeuilles: int
     abandon: int
-
 
 
 def lecture(fichier) -> list[Data]:
