@@ -146,11 +146,65 @@ def cherche_operateurs2(data: Data, nb_op: NbOperations) -> Resultat | None:
 
     return parcourt2(data, liste_operateurs, 0, 0, [], nb_op)
 
+def parcourt3(data: Data, liste_operateurs: list[str],no:int,val:int,
+              operateurs_selectionnee:list[str], nb_op: NbOperations, reste:int) -> Resultat | None:
+
+    if no<0:
+        raise IndexError("no="+str(no))
+    elif no>=len(data.nombres):
+        raise IndexError("no="+str(no)+",len(data.nombres)="+str(len(data.nombres)))
+    res=-1
+    if no == 0:
+        v=data.nombres[no]
+        total=0
+        for n in data.nombres:
+            total+=n
+        if total>data.valeur:
+            return None
+        reste=total-v
+        return parcourt3(data, liste_operateurs, no+1, v,[],nb_op, reste)
+    else:
+        for operateur in liste_operateurs:
+            if operateur == '+':
+                v2=val+data.nombres[no]
+            elif operateur == '*':
+                v2=val*data.nombres[no]
+            else:
+                raise Exception("Erreur")
+            nb_op.nb+=1
+            reste2 = reste-data.nombres[no]
+            if v2>data.valeur:
+                nb_op.abandon+=1
+                continue
+            elif v2+reste2>data.valeur:
+                nb_op.abandon+=1
+                continue
+            if no>=len(data.nombres)-1:
+                if v2 == data.valeur:
+                    liste2=operateurs_selectionnee.copy()
+                    liste2.append(operateur)
+                    nb_op.nbFeuilles+=1
+                    return Resultat(data.valeur, data.nombres, liste2)
+            else:
+                liste2=operateurs_selectionnee.copy()
+                liste2.append(operateur)
+                res2=parcourt3(data, liste_operateurs, no+1, v2, liste2, nb_op, reste2)
+                if res2 is not None:
+                    return res2
+    return None
+
+def cherche_operateurs3(data: Data, nb_op: NbOperations) -> Resultat | None:
+    liste_operateurs = ['+', '*']
+
+    return parcourt3(data, liste_operateurs, 0, 0, [], nb_op,0)
+
 def cherche_operateurs_choix(data: Data, no: int, nb_op: NbOperations) -> Resultat | None:
     if no == 0:
         return cherche_operateurs(data,nb_op)
     elif no == 1:
         return cherche_operateurs2(data,nb_op)
+    elif no == 2:
+        return cherche_operateurs3(data, nb_op)
     else:
         raise Exception("Erreur")
 
@@ -178,6 +232,7 @@ def recherche(no:int):
 if True:
     no=0
     no=1
+    no = 2
 
     recherche(no)
 else:
